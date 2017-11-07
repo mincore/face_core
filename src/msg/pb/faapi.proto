@@ -1,0 +1,125 @@
+syntax = "proto2";
+
+package faapi;
+
+enum MSG {
+    MSG_DETECT_REQ = 0;
+    MSG_DETECT_RESP = 1;
+
+    MSG_EXTRACT_REQ = 2;
+    MSG_EXTRACT_RESP = 3;
+    
+    MSG_COMPARE_REQ = 4;
+    MSG_COMPARE_RESP = 5;
+    
+    MSG_INSERT_REQ = 6;
+    MSG_INSERT_RESP = 7;
+    
+    MSG_DELETE_REQ = 8;
+    MSG_DELETE_RESP = 9;
+    
+    MSG_SEARCH_REQ = 10;
+    MSG_SEARCH_RESP = 11;
+    
+    MSG_DELETE_TAG_REQ = 12;
+    MSG_DELETE_TAG_RESP = 13;
+    
+    MSG_LIST_TAGS_REQ = 14;
+    MSG_LIST_TAGS_RESP = 15;
+    
+    MSG_GET_TAG_SIZE_REQ = 16;
+    MSG_GET_TAG_SIZE_RESP = 17;
+}
+
+message Rect {
+    optional int32 left = 1;
+    optional int32 top = 2;
+    optional int32 right = 3;
+    optional int32 bottom = 4;
+};
+
+message Img {
+    optional bytes buf = 1;
+    optional int32 width = 2;
+    optional int32 height = 3;
+    optional bool isRaw = 4;
+}
+
+message DetectResult {
+    optional float confidence = 1;
+    optional Rect rect = 2;
+    optional bytes faceInfo = 3;
+}
+
+message ExtractResult {
+    optional Rect rect = 1;
+    optional bytes feature = 2;
+}
+
+message SearchResult {
+    optional uint64 faceID = 1;
+    optional float score = 2;
+    optional string tagName = 3;
+}
+
+message DetectReq {
+    optional Img img = 1;
+}
+
+message DetectResp {
+    repeated DetectResult results = 1;
+}
+
+message ExtractReq {
+    optional Img img = 1;
+    optional bytes faceInfo = 2;
+}
+
+message ExtractResp {
+    optional ExtractResult result = 1;
+}
+
+message CompareReq {
+    optional bytes feature1 = 1;
+    optional bytes feature2 = 2;
+}
+
+message CompareResp {
+    optional float score = 1;
+}
+
+message InsertReq {
+    optional string tagName = 1;
+    optional bytes feature = 2;
+}
+
+message InsertResp {
+    optional uint64 faceID = 1;
+}
+
+message DeleteReq {
+    optional string tagName = 1;
+    optional uint64 faceID = 2;
+}
+
+message SearchReq {
+    optional bytes feature = 1;
+    repeated string tagNames = 2;
+    optional int32 maxCount = 3;
+}
+
+message SearchResp {
+    repeated SearchResult results = 1;
+}
+
+message ListTagsResp {
+    repeated string tagNames = 1;
+}
+
+message GetTagSizeReq {
+    optional string tagName = 1;
+}
+
+message GetTagSizeResp {
+    optional int32 size = 1;
+}

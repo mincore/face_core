@@ -1,0 +1,16 @@
+syntax = "proto2";
+
+package fastore;
+
+message FaceAttr {
+    optional uint64 FaceID = 1;
+    optional bytes Feature = 2;
+    repeated uint32 TagIDs = 3;
+    optional uint32 Flags = 4;
+    optional string url = 5;
+}
+
+message TagAttr {
+    optional uint32 TagID = 1;
+    optional uint32 Flags = 2;
+}
